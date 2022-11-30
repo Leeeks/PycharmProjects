@@ -1,14 +1,13 @@
 from tkinter import *
 
-from Day_26.main import row
-
 # Creating a new window and configurations
 window = Tk()
-window.title("Widget Examples")
+window.title("Miles to km converter")
 window.minsize(width=200, height=100)
+window.config(pady=20, padx=20)
 
 # Entries
-entry = Entry(width=10)
+entry = Entry(width=7)
 # Add some text to begin with
 entry.insert(END, string="0")
 # Gets text in entry
@@ -37,9 +36,9 @@ label4.grid(column=2, row=2, padx=10, pady=10)
 
 #Buttons
 def action():
-    user_input = int(entry.get())
-    result = round(user_input * 0.621361, 4)
-    label4.config(text=result)
+    user_input = float(entry.get())
+    result = round(user_input * 0.621361, 2)
+    label4.config(text=f"{result}")
 
 # calls action() when pressed
 button = Button(text="Calculate", command=action)
