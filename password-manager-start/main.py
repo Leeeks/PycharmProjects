@@ -2,6 +2,7 @@ from tkinter import *
 from tkinter import messagebox
 import random
 import pyperclip
+import json
 
 
 # ---------------------------- PASSWORD GENERATOR ------------------------------- #
@@ -30,24 +31,41 @@ def generate_password():
     password_entry.insert(0, password)
     pyperclip.copy(password)
 
+
 # ---------------------------- SAVE PASSWORD ------------------------------- #
 def save_password():
     website_name = website_entry.get()
     email_name = email_entry.get()
     password = password_entry.get()
+    new_data = {
+        website_name: {
+            "email": email_name,
+            "password": password,
+        }
+    }
 
     if len(password) == 0 or len(website_name) == 0:
         messagebox.showerror("Something is wrong ...", "Either the website or your password is invalid.")
     else:
-        is_ok = messagebox.askokcancel(title=website_name,
-                                       message=f"These are the details entered:\nEmail: {email_name}"
-                                               f"\nPassword: {password} \nIs it ok to save?")
-        if is_ok:
-            with open("myPasswords.txt", "a") as f:
-                entry_string = f"{website_name} | {email_name} | {password}"
-                f.write(f"{entry_string}\n")
-                website_entry.delete(0, END)
-                password_entry.delete(0, END)
+        try:
+            with open("data.json", "r") as f:
+                # Reading old data
+                data = json.load(f)
+        except FileNotFoundError:
+            with open("data.json", "w") as f:
+                # creating new json file and dumping new data
+                json.dump(new_data, f, indent=4)
+        else:
+            # Update old data with new data
+            data.update(new_data)
+
+            with open("data.json", "w") as f:
+                # Saving updated data
+                json.dump(data, f, indent=4)
+                print(data)
+        finally:
+            website_entry.delete(0, END)
+            password_entry.delete(0, END)
 
 
 # ---------------------------- UI SETUP ------------------------------- #
