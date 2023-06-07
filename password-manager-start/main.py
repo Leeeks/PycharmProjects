@@ -6,6 +6,19 @@ import json
 
 
 # ---------------------------- PASSWORD GENERATOR ------------------------------- #
+def find_password():
+    # get search string
+    string_to_check = website_entry.get()
+    # open file and load json file
+    with open("data.json", "r") as f:
+        data = json.load(f)
+
+    for key in data.keys():
+        if string_to_check == key:
+            messagebox.showinfo(string_to_check, "E-Mail: " + data[key]["email"] + "\nPassword: " + data[key]["password"])
+
+    messagebox.showinfo(string_to_check, "There is no password for this website in the database.")
+
 def generate_password():
     letters = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u',
                'v', 'w', 'x', 'y', 'z', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P',
@@ -90,8 +103,8 @@ password_label = Label(window, text="Password:", bg="white")
 password_label.grid(row=3, column=0)
 
 # Entryboxes
-website_entry = Entry(width=43, bg="white")
-website_entry.grid(row=1, column=1, columnspan=2, sticky="w", padx=(10, 0))
+website_entry = Entry(width=24, bg="white")
+website_entry.grid(row=1, column=1, sticky="w", padx=(10, 0))
 website_entry.focus()
 
 email_entry = Entry(width=43, bg="white")
@@ -105,7 +118,10 @@ password_entry.grid(row=3, column=1, sticky="w", padx=(10, 0))
 # frame = Frame()
 # frame.grid(row=3, column=2, sticky="W")
 # Buttons
-generate_password_button = Button(text="Generate Password", command=generate_password, bg="white")
+search_button = Button(width=14, text="search", command=find_password, bg="white")
+search_button.grid(row=1, column=1, columnspan=2, stick="e")
+
+generate_password_button = Button(width=14, text="Generate Password", command=generate_password, bg="white")
 generate_password_button.grid(row=3, column=1, columnspan=2, sticky="e")
 
 add_password_button = Button(width=36, text="Add", command=save_password, bg="white")
