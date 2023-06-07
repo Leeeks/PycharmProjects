@@ -10,14 +10,20 @@ def find_password():
     # get search string
     string_to_check = website_entry.get()
     # open file and load json file
-    with open("data.json", "r") as f:
-        data = json.load(f)
+    try:
+        with open("data.json", "r") as f:
+            data = json.load(f)
+    except FileNotFoundError:
+        messagebox.showinfo(title="Error", message="No Data File Found.")
+    else:
+        for key in data.keys():
+            if string_to_check == key:
+                messagebox.showinfo(string_to_check, "E-Mail: " + data[key]["email"] + "\nPassword: " + data[key]["password"])
+                break
+        else:
+            messagebox.showinfo(string_to_check, "There is no password for this website in the database.")
 
-    for key in data.keys():
-        if string_to_check == key:
-            messagebox.showinfo(string_to_check, "E-Mail: " + data[key]["email"] + "\nPassword: " + data[key]["password"])
 
-    messagebox.showinfo(string_to_check, "There is no password for this website in the database.")
 
 def generate_password():
     letters = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u',
