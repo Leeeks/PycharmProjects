@@ -106,3 +106,5 @@ while not coffee_machine_off:
             report()
         else:
             print("This is not a valid choice. Please try again.")
+
+this is some new code
